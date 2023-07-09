@@ -12,29 +12,11 @@ lakefs-instance:
       type: s3
       s3:
         force_path_style: true
-        endpoint: http://minio.default.svc.cluster.local:9090
+        endpoint: http://minio:9000
         discover_bucket_region: false
         credentials:
           access_key_id: minioadmin
           secret_access_key: minioadmin
-
-# postgresql from bitnami
-# lakefs-postgres:
-#   enabled: true
-#   global:
-#     postgresql:
-#       postgresqlDatabase: "lakefs"
-#       postgresqlPassword: "password"
-#       postgresqlUsername: "postgres"
-#       servicePort: "5432"
-#   volumePermissions:
-#     enabled: true
-#   persistence:
-#     existingClaim: "postgresql-pv-claim"
-#   livenessProbe:
-#     initialDelaySeconds: 200
-#   readinessProbe:
-#     initialDelaySeconds: 200
 
 # DEFAULT
 replicaCount: 1

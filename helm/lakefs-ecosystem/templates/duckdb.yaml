@@ -20,30 +20,15 @@ spec:
           ports:
             - containerPort: 8088
 ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: duckdb-bundle
-#   labels:
-#     run: my-nginx
-# spec:
-#   ports:
-#     - port: 80
-#       targetPort: 8088
-#       protocol: TCP
-#   type: NodePort
-#   selector:
-#     app.kubernetes.io/name: app-duckdb-bundle
 apiVersion: v1
 kind: Service
 metadata:
   name: duckdb
   labels:
-    run: my-nginx
     app: lakefs-ecosystem
 spec:
   ports:
     - port: 80
       protocol: TCP
   selector:
-    run: my-nginx
+    name: duckdb-bundle
