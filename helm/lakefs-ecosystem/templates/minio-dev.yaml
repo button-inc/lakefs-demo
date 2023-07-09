@@ -1,12 +1,4 @@
-# Deploys a new Namespace for the MinIO Pod
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: minio-dev # Change this value if you want a different namespace name
-#   labels:
-#     name: minio-dev # Change this value to match metadata.name
----
-# volume or minio
+# volume for minio
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -63,28 +55,13 @@ spec:
       volumeMounts:
         - mountPath: /data
           name: localvolume # Corresponds to the `spec.volumes` Persistent Volume
-  # nodeSelector:
-  #   kubernetes.io/hostname: kubealpha.local # Specify a node label associated to the Worker Node on which you want to deploy the pod.
   volumes:
     - name: localvolume
       hostPath: # MinIO generally recommends using locally-attached volumes
         path: minio-pv # Specify a path to a local drive or volume on the Kubernetes worker node
         type: DirectoryOrCreate # The path to the last directory must exist
 ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: minio
-#   labels:
-#     run: my-nginx
-# spec:
-#   ports:
-#     - port: 80
-#       targetPort: 9090
-#       protocol: TCP
-#   type: NodePort
-#   selector:
-#     app.kubernetes.io/name: minio
+# Service for minio, exposes 9090 for the ui and 9000 for the api
 apiVersion: v1
 kind: Service
 metadata:
@@ -93,7 +70,13 @@ metadata:
     app: lakefs-ecosystem
 spec:
   ports:
-    - port: 80
+    - port: 9090
+      name: minio-webapp
+      targetPort: 9090
+      protocol: TCP
+    - port: 9000
+      name: minio-api
+      targetPort: 9000
       protocol: TCP
   selector:
-    run: my-nginx
+    app: minio
