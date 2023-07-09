@@ -8,9 +8,10 @@ Ensure that you have a working installation of [helm](https://helm.sh/), [docker
 
 From `helm/` run `helm install lakefs-ecosystem lakefs-ecosystem`, this will install the following on your local kubernets cluster:
 
-- postgresql
-- minio
-- lakefs
+- postgresql + pv + pvc + svc
+- minio + pv + pvc + svc
+- lakefs + svc
+- duckdb cluster + svc
 
 Next you will need to port-forward your lakefs pod to be able to access it from your browser.
 
